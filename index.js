@@ -60,6 +60,24 @@ async function run() {
       const result = await inventoryCollection.deleteOne(query);
       res.send(result);
     });
+
+    /*___________quantity Update  API code start here_____________*/
+    app.put("/quantity-minus/:id", async (req, res) => {
+      const id = req.params.id;
+      const filter = { _id: ObjectId(id) };
+      const query = req.body;
+      const options = { upsert: true };
+
+      const updateDoc = {
+        $set: query,
+      };
+      const result = await inventoryCollection.updateOne(
+        filter,
+        updateDoc,
+        options
+      );
+      res.send(result);
+    });
   } finally {
   }
 }
