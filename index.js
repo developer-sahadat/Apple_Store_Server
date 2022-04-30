@@ -9,7 +9,7 @@ app.use(cors());
 app.use(express.json());
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.czcbx.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
-console.log(uri);
+
 const client = new MongoClient(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -34,6 +34,15 @@ async function run() {
       const doc = req.body;
       const result = await inventoryCollection.insertOne(doc);
       res.send(result);
+    });
+    /*___________ My inventory items  API code start here_____________*/
+    app.get("/my-items", async (req, res) => {
+      const email = req.query.email;
+      const query = { email };
+      console.log(query);
+      const cursor = inventoryCollection.find(query);
+      const myItems = await cursor.toArray();
+      res.send(myItems);
     });
   } finally {
   }
