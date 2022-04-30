@@ -28,6 +28,13 @@ async function run() {
       const result = await cursor.toArray();
       res.send(result);
     });
+
+    /*___________inventory item add API code start here_____________*/
+    app.post("/inventory", async (req, res) => {
+      const doc = req.body;
+      const result = await inventoryCollection.insertOne(doc);
+      res.send(result);
+    });
   } finally {
   }
 }
