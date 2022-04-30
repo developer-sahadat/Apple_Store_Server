@@ -35,7 +35,16 @@ async function run() {
       const result = await inventoryCollection.insertOne(doc);
       res.send(result);
     });
-    /*___________ My inventory items  API code start here_____________*/
+
+    /*___________ Single inventory item get API code start here_____________*/
+    app.get("/inventory/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const result = await inventoryCollection.findOne(query);
+      res.send(result);
+    });
+
+    /*___________ My inventory items get API code start here_____________*/
     app.get("/my-items", async (req, res) => {
       const email = req.query.email;
       const query = { email };
@@ -44,7 +53,7 @@ async function run() {
       const myItems = await cursor.toArray();
       res.send(myItems);
     });
-    /*___________ My inventory items  API code start here_____________*/
+    /*___________ My inventory items delete  API code start here_____________*/
     app.delete("/my-items/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: ObjectId(id) };
