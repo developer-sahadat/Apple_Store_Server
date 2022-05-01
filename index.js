@@ -20,6 +20,7 @@ async function run() {
   try {
     await client.connect();
     const inventoryCollection = client.db("phonesy").collection("inventory");
+    const supplierCollection = client.db("phonesy").collection("supplier");
 
     /*___________All data load API code start here_____________*/
     app.get("/inventory", async (req, res) => {
@@ -76,6 +77,14 @@ async function run() {
         updateDoc,
         options
       );
+      res.send(result);
+    });
+
+    /*___________supplier  API code start here_____________*/
+    app.get("/supplier", async (req, res) => {
+      const query = {};
+      const cursor = supplierCollection.find(query);
+      const result = await cursor.toArray();
       res.send(result);
     });
   } finally {
